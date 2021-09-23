@@ -91,10 +91,20 @@
         >
       </li>
     </ul>
+    <h3>LOGIN</h3>
+    <ul>
+      <li>
+           <router-link to="/Login">Login</router-link>
+      </li>
+
+    </ul>
+    <router-view />
   </div>
+
 </template>
 
 <script>
+
 export default {
   name: "HelloWorld",
   props: {

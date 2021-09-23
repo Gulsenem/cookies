@@ -1,16 +1,31 @@
 <template>
   <div id="app">
     <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+      <router-link to="/">Home</router-link> 
     </div>
     <router-view />
   </div>
 </template>
 
 <style>
+*{box-sizing: border-box;
+  font-family: 'Segoe UI';}
+body
+{
+  background-color:#f1f1f1
+}
+
+.wrapper
+{
+  max-width: 900px;
+  background-color:white;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 80px;
+  border-radius: 6px;
+}
+
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
