@@ -21,6 +21,13 @@
             <button @click="hinzufugen('Iphone 5', 300)">Iphone 5, 300€</button>
             <button @click="hinzufugen('Iphone 6', 300)">Iphone 6, 400€</button>
             <button @click="hinzufugen('Iphone 7', 300)">Iphone 7, 500€</button>
+
+            <h4>Warenkorb</h4>
+            <ul>
+                <li v-for="p in warenkorb" :key="p"> 
+                        {{p.name}} - {{p.preis}}    
+                </li>
+            </ul>
         </div>
     </div>
 </template>
@@ -34,6 +41,16 @@ export default {
        if (Cookies.get("logged_in", 1))
        {
            this.schritt ==2;
+
+           if(Cookies.get("warenkorb"))
+           {
+               const liste = JSON.parse(Cookies.get("warenkorb"));
+               for (let p of liste)
+               {
+                   this.warenkorb.push(p);
+               }
+
+           }
        }
     },
     mounted()
@@ -52,7 +69,8 @@ export default {
             schritt: 1,
             meldung_class: "meldung versteckt",
             meldung: "Ungültige Anmeldedaten! Bitte versuchen Sie erneut.",
-            warenkorb: []
+            warenkorb: [],
+
 
         }
     },
@@ -81,7 +99,9 @@ export default {
         hinzufugen(produkt, preis)
         {
             this.warenkorb.push({name:produkt, preis});
-            console.log(this.warenkorb)
+
+            Cookies.set("warenkorb", JSON.stringify(this.warenkorb));
+            
         }
 
     }
@@ -102,7 +122,7 @@ h2{margin:0;}
     flex-direction: column;
 }
 
-input
+.container input
 {
     outline:none;
     border:none;
@@ -110,13 +130,18 @@ input
     padding: 8px 12px;
     border-bottom: 1px solid #6e6e6e;
     font-size: 1em;
+    transition: border 0.2s;
+}
 
+.container input:focus
+{
+    border-bottom: 2px solid #42b983;
 }
 button{
     margin: 0 20px;
     margin-top: 30px;
 }
-.container button
+.container>button
 { 
     outline:none;
     border:none;
@@ -129,7 +154,7 @@ button{
     margin-top: 30px;
     border-radius: 6px;
 }
-.container button:hover
+.container>button:hover
 {
     background-color:#389b6e;
 }
