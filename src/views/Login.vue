@@ -35,7 +35,7 @@
 <script>
 import Cookies from "js-cookie"
 
-export default {
+export default {  
     created()
     {
        if (Cookies.get("logged_in", 1))
@@ -69,32 +69,39 @@ export default {
             schritt: 1,
             meldung_class: "meldung versteckt",
             meldung: "Ungültige Anmeldedaten! Bitte versuchen Sie erneut.",
-            warenkorb: [],
-
-
+            warenkorb: []
         }
     },
 
     methods:
     {
         login()
-        {            
-            if(this.bName=="Senem" && this.mail=="test@test.com" && this.pass=="123")
+        {  
+            fetch("http://localhost/login.php?benutzername=" + this.bName + "&mail=" +this.mail + "&passwort=" + this.pass )
+            .then(antwort =>antwort.text())
+            .then((antwort)=>
             {
-                Cookies.set("logged_in", 1);
-                this.schritt=2;
-            }
+            
+                if(antwort == "1")
+                {
+                    Cookies.set("logged_in", 1);
+                    this.schritt=2;
+                }
+                else if(antwort== "0")
+                {
+                    this.meldung_class = "meldung";
 
-            else 
-            {
-                
-                this.meldung_class = "meldung";
-
-                setTimeout(()=> {this.meldung_class = "meldung versteckt"}, 4000)
-                
-            }
-
+                    setTimeout(()=> {this.meldung_class = "meldung versteckt"}, 4000)
+                }
+                else
+                {
+                    //Server fehler
+                }
+        
+            })
         },
+
+        
 
         hinzufugen(produkt, preis)
         {
